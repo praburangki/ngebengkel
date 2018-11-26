@@ -1,45 +1,54 @@
 <template>
   <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">
-        scoot_client
-      </h1>
-      <h2 class="subtitle">
-        Scoot Client
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
+    <div v-if="location.isLoading">
+      Getting your location, please wait.
+    </div>
+    <div v-else>
+      <div v-if="location.locationError">
+        <p>Something went wrong, please retry</p>
+      </div>
+      <div v-else-if="!location.current">
+        <h2 class="subtitle">My Vehicle is Broken</h2>
+        <div 
+          class="button--green" 
+          @click="getUserPos">
+          HELP!
+        </div>
+      </div>
+      <div v-else>
+        <MapContainer/>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import MapContainer from '~/components/MapContainer';
 
 export default {
   components: {
-    Logo
+    MapContainer
+  },
+  computed: {
+    location() {
+      return this.$store.state.location;
+    }
+  },
+  methods: {
+    getUserPos() {
+      this.$store.dispatch('location/getCurrentPos');
+    }
   }
-}
+};
 </script>
 
 <style>
-
 .container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   text-align: center;
+  margin-top: 50px;
 }
 
 .title {
