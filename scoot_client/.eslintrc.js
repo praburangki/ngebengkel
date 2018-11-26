@@ -8,7 +8,7 @@ module.exports = {
     parser: 'babel-eslint'
   },
   extends: [
-    'plugin:vue/recommended',
+    'plugin:vue/strongly-recommended',
     'plugin:prettier/recommended'
   ],
   // required to lint *.vue files
@@ -21,5 +21,15 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     "prettier/prettier": ["error", { "semi": true, "singleQuote": true }],
+    'vue/max-attributes-per-line': [
+      2,
+      {
+        singleline: 3,
+        multiline: {
+          max: 1,
+          allowFirstLine: false,
+        },
+      },
+    ],
   }
 }
